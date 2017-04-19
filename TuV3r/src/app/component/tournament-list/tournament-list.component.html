@@ -1,0 +1,23 @@
+<div *ngIf="tournamentChosen != true" class="container">
+  <table class="table table-hover" id="tournamentsTable">
+    <thead><tr><th>Name</th><th style="text-align:right">erstellt am</th></tr></thead>
+    <tbody *ngFor="let tournament of tournaments">
+    <tr [class]="tournament.isToggled?'table-active':'table'"
+        (click)="getTeamsByTournamentId(tournaments.indexOf(tournament))">
+      <td>
+        {{tournament.name}}
+      </td>
+      <td align="right">
+        {{tournament.date}}
+      </td>
+    </tr>
+    </tbody>
+  </table>
+  <button type="button" class="btn btn-outline-primary"
+          id="start"
+          (click)="startTournament()">Turnier starten
+  </button>
+</div>
+<div *ngIf="tournamentChosen == true">
+  <app-execution [selectedTournament]="selectedTournament"></app-execution>
+</div>

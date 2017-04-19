@@ -1,0 +1,37 @@
+<div>
+  <table class="table table-hover">
+    <thead *ngIf="isFinale != true"><tr><th colspan="4" style="text-align:center">{{roundContent}}. Runde</th></tr></thead>
+    <thead *ngIf="isFinale == true"><tr><th colspan="4" style="text-align:center">Finale</th></tr></thead>
+    <thead *ngIf="isKleinesFinale == true"><tr><th colspan="4" style="text-align:center">Kleines Finale</th></tr></thead>
+    <tbody>
+    <tr *ngFor="let match of matches" style="text-align: center" [class]="match.isDisabled?'table-success':'table-danger'">
+      <td>
+        <label>{{match.team1.name}}</label>
+      </td>
+      <td *ngIf="match.team2.name == 'Wildcard'">
+        <input [(ngModel)]="match.result.pointsFirstTeam" type="text" class="form-control" readonly>
+        :
+        <input [(ngModel)]="match.result.pointsSecondTeam" type="text" class="form-control" readonly>
+      </td>
+      <td *ngIf="match.team2.name != 'Wildcard'">
+        <button type="button" class="btn btn-outline-primary" (click)="up(match, 1)">+</button>
+        <button type="button" class="btn btn-outline-primary" (click)="down(match, 1)">-</button>
+        <input [(ngModel)]="match.result.pointsFirstTeam" type="text" [class]="match.isWrong?'wrongInput form-control':'form-control'">
+        :
+        <input [(ngModel)]="match.result.pointsSecondTeam" type="text" [class]="match.isWrong?'wrongInput form-control':'form-control'">
+        <button type="button" class="btn btn-outline-primary" (click)="up(match, 2)">+</button>
+        <button type="button" class="btn btn-outline-primary" (click)="down(match, 2)">-</button>
+      </td>
+      <td>
+        <label>{{match.team2.name}}</label>
+      </td>
+      <td>
+        <button type="button" class="btn btn-outline-success"
+                [disabled]="match.isDisabled"
+                (click)="finishMatch(match)">Beenden
+        </button>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</div>
