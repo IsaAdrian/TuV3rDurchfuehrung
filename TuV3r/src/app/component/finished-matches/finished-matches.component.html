@@ -1,3 +1,20 @@
-<p>
-  finished-matches works!
-</p>
+<table class="table table-hover">
+  <thead><tr><th colspan="4" style="text-align:center">Beendete Matches</th></tr></thead>
+  <tbody>
+  <tr *ngFor="let match of finishedMatches" style="text-align: center">
+    <td>
+      <label  [class]="match.result.pointsFirstTeam>match.result.pointsSecondTeam?'winner':'loser'">
+        {{match.team1.name}}</label>
+    </td>
+    <td>
+      <input [(ngModel)]="match.result.pointsFirstTeam" type="text" class="form-control" readonly>
+      :
+      <input [(ngModel)]="match.result.pointsSecondTeam" type="text" class="form-control" readonly>
+    </td>
+    <td>
+      <label [class]="match.result.pointsFirstTeam<match.result.pointsSecondTeam?'winner':'loser'">
+        {{match.team2.name}}</label>
+    </td>
+  </tr>
+  </tbody>
+</table>
