@@ -1,5 +1,5 @@
 <div *ngIf="tournamentChosen != true" class="container">
-  <table class="table table-hover" id="tournamentsTable">
+  <table class="table table-hover">
     <thead><tr><th>Name</th><th style="text-align:right">erstellt am</th></tr></thead>
     <tbody *ngFor="let tournament of tournaments">
     <tr [class]="tournament.isToggled?'table-active':'table'"

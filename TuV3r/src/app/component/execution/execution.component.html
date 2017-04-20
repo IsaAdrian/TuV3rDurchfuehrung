@@ -1,58 +1,64 @@
-<div *ngIf="(matchesCreated == true && isFinished == false) || isFinale == true">
-  <table class="table table-hover">
-    <thead *ngIf="isFinale != true && isKleinesFinale != true"><tr><th colspan="4" style="text-align:center">{{roundContent}}. Runde</th></tr></thead>
-    <thead *ngIf="isKleinesFinale == true"><tr><th colspan="4" style="text-align:center">Kleines Finale</th></tr></thead>
-    <thead *ngIf="isFinale == true"><tr><th colspan="4" style="text-align:center">Finale</th></tr></thead>
-    <tbody>
-    <tr *ngFor="let match of matches" style="text-align: center" [class]="match.isDisabled||match.team1.name=='Wildcard'||match.team2.name=='Wildcard'?'table-success':'table-danger'">
-      <td>
-        <label>{{match.team1.name}}</label>
-      </td>
-      <td *ngIf="match.team2.name == 'Wildcard'">
-        <input [(ngModel)]="match.result.pointsFirstTeam" type="text" class="form-control" readonly>
-        :
-        <input [(ngModel)]="match.result.pointsSecondTeam" type="text" class="form-control" readonly>
-      </td>
-      <td *ngIf="match.team2.name != 'Wildcard'">
-        <button type="button" class="btn btn-outline-primary" (click)="up(match, 1)">+</button>
-        <button type="button" class="btn btn-outline-primary" (click)="down(match, 1)">-</button>
-        <input [(ngModel)]="match.result.pointsFirstTeam" type="text" [class]="match.isWrong?'wrongInput form-control':'form-control'">
-        :
-        <input [(ngModel)]="match.result.pointsSecondTeam" type="text" [class]="match.isWrong?'wrongInput form-control':'form-control'">
-        <button type="button" class="btn btn-outline-primary" (click)="up(match, 2)">+</button>
-        <button type="button" class="btn btn-outline-primary" (click)="down(match, 2)">-</button>
-      </td>
-      <td>
-        <label>{{match.team2.name}}</label>
-      </td>
-      <td *ngIf="match.team2.name != 'Wildcard'">
-        <button type="button" class="btn btn-outline-success"
-                (click)="putMatch(match)">Fertig
+<div *ngIf="(matchesCreated == true && isFinished == false) || isFinale == true" class="row">
+  <div class="col-lg-8">
+    <div class="row">
+      <table class="table table-hover">
+        <thead *ngIf="isFinale != true && isKleinesFinale != true"><tr><th colspan="4" style="text-align:center">{{roundContent}}. Runde</th></tr></thead>
+        <thead *ngIf="isKleinesFinale == true"><tr><th colspan="4" style="text-align:center">Kleines Finale</th></tr></thead>
+        <thead *ngIf="isFinale == true"><tr><th colspan="4" style="text-align:center">Finale</th></tr></thead>
+        <tbody>
+        <tr *ngFor="let match of matches" style="text-align: center" [class]="match.isDisabled||match.team1.name=='Wildcard'||match.team2.name=='Wildcard'?'table-success':'table-danger'">
+          <td>
+            <label>{{match.team1.name}}</label>
+          </td>
+          <td *ngIf="match.team2.name == 'Wildcard'">
+            <input [(ngModel)]="match.result.pointsFirstTeam" type="text" class="form-control" readonly>
+            :
+            <input [(ngModel)]="match.result.pointsSecondTeam" type="text" class="form-control" readonly>
+          </td>
+          <td *ngIf="match.team2.name != 'Wildcard'">
+            <button type="button" class="btn btn-outline-primary" (click)="up(match, 1)">+</button>
+            <button type="button" class="btn btn-outline-primary" (click)="down(match, 1)">-</button>
+            <input [(ngModel)]="match.result.pointsFirstTeam" type="text" [class]="match.isWrong?'wrongInput form-control':'form-control'">
+            :
+            <input [(ngModel)]="match.result.pointsSecondTeam" type="text" [class]="match.isWrong?'wrongInput form-control':'form-control'">
+            <button type="button" class="btn btn-outline-primary" (click)="up(match, 2)">+</button>
+            <button type="button" class="btn btn-outline-primary" (click)="down(match, 2)">-</button>
+          </td>
+          <td>
+            <label>{{match.team2.name}}</label>
+          </td>
+          <td *ngIf="match.team2.name != 'Wildcard'">
+            <button type="button" class="btn btn-outline-success"
+                    (click)="putMatch(match)">Speichern
+            </button>
+          </td>
+          <td *ngIf="match.team2.name == 'Wildcard'">
+            <button type="button" class="btn btn-outline-success"
+                    [disabled]="true">Speichern
+            </button>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="row" style="margin-left: 40%">
+      <div *ngIf="matchesCreated == true && isFinished == false" class="container" style="text-align:center">
+        <button type="button" class="btn btn-outline-primary"
+                style="float:left"
+                [disabled]="isNextDisabled"
+                (click)="nextRound()">Nächste Runde
         </button>
-      </td>
-      <td *ngIf="match.team2.name == 'Wildcard'">
-        <button type="button" class="btn btn-outline-success"
-                [disabled]="true">Fertig
+      </div>
+      <div *ngIf="isFinale == true" class="container" style="text-align:center; float:left">
+        <button type="button" class="btn btn-outline-primary"
+                style="float:left"
+                (click)="finishTournament()">Turnier Beenden
         </button>
-      </td>
-    </tr>
-    </tbody>
-  </table>
-</div>
+      </div>
+    </div>
+  </div>
 
-<div *ngIf="matchesCreated == true && isFinished == false" class="container" style="text-align: center">
-  <button type="button" id="next" class="btn btn-outline-primary"
-          [disabled]="isNextDisabled"
-          (click)="nextRound()">Nächste Runde
-  </button>
-</div>
-
-<div *ngIf="isFinale == true" class="container" style="text-align: center">
-  <button type="button" class="btn btn-outline-primary"
-          (click)="finishTournament()">Turnier Beenden
-  </button>
-</div>
-
-<div *ngIf="matchesCreated == true">
-  <app-finished-matches [finishedMatches]="finishedMatches"></app-finished-matches>
+  <div *ngIf="matchesCreated == true" class="col-lg-4">
+    <app-finished-matches [finishedMatches]="finishedMatches"></app-finished-matches>
+  </div>
 </div>

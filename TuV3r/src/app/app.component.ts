@@ -3,8 +3,7 @@ import {TournamentListComponent} from "./component/tournament-list/tournament-li
 
 @Component({
   selector: 'app-root',
-  templateUrl: './app.component.html',
-  entryComponents: [TournamentListComponent]
+  templateUrl: './app.component.html'
 })
 export class AppComponent {
   constructor() {

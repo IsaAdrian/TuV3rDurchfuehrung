@@ -4,13 +4,8 @@ table {
   margin-top: 10%;
 }
 
-#tournamentsTable {
-  width: 50%;
-  margin: auto;
-  margin-top: 10%;
-}
-
 #start {
-  margin:0 auto;
+  margin: auto;
+  margin-top: 1%;
   display:block;
 }

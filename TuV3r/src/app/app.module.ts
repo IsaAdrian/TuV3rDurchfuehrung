@@ -6,18 +6,29 @@ import { AppComponent } from './app.component';
 import { FinishedMatchesComponent } from './component/finished-matches/finished-matches.component';
 import { TournamentListComponent } from './component/tournament-list/tournament-list.component';
 import { ExecutionComponent } from './component/execution/execution.component';
+import { CreationframeComponent } from './component/creationframe/creationframe.component';
+import { RouterModule } from "@angular/router";
+import { EvalframeComponent } from './component/evalframe/evalframe.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     FinishedMatchesComponent,
     TournamentListComponent,
-    ExecutionComponent
+    ExecutionComponent,
+    CreationframeComponent,
+    EvalframeComponent
   ],
   imports: [
     BrowserModule,
     FormsModule,
     HttpModule,
+    RouterModule.forRoot([
+      {path:'',redirectTo:'create',pathMatch:'full'},
+      {path:'create',component:CreationframeComponent},
+      {path:'exe',component:TournamentListComponent},
+      {path:'eval',component:EvalframeComponent}
+    ])
   ],
   providers: [],
   bootstrap: [AppComponent]
