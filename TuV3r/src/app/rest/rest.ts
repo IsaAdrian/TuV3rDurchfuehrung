@@ -13,6 +13,7 @@ import {Result} from "../entity/Result";
 
 @Injectable()
 export class Rest {
+
   constructor (private _http: Http){ }
 
   getTournaments(): Observable<Tournament[]>{
@@ -31,13 +32,30 @@ export class Rest {
       .map(res => res.json() as Match);
   }
 
-  putMatch(result: Result, id: number){
+  putMatchResult(result: Result, id: number){
     let headers = new Headers({ 'Content-Type': 'application/json' });
     let options = new RequestOptions({ headers: headers });
 
-    let resultString = "{\"result\":" + JSON.stringify(result) + ",\"active\": true}";
+    let resultString = "{ \"result\":" + JSON.stringify(result) + "}";
+
+    console.log(resultString);
 
     return this._http.put("http://vm15.htl-leonding.ac.at:8090/Turnierverwaltung/rs/match/" + String(id), resultString, options)
+      .map(res => res.json());
+  }
+
+  putMatchStartTime(id: number){
+    let headers = new Headers({ 'Content-Type': 'application/json' });
+    let options = new RequestOptions({ headers: headers });
+
+    let date = new Date();
+    var timeString = "{ \"startTime\": \"" + String(date.getHours())+":";
+    if(date.getMinutes() < 10){
+      timeString += "0";
+    }
+    timeString += (String(date.getMinutes()) + "\" }");
+
+    return this._http.put("http://vm15.htl-leonding.ac.at:8090/Turnierverwaltung/rs/match/" + String(id), timeString, options)
       .map(res => res.json());
   }
 
@@ -46,8 +64,6 @@ export class Rest {
     let options = new RequestOptions({ headers: headers });
 
     let roundString = "{\"name\":" + roundContent + ",\"toId\": " + String(tournamentId) + " }";
-
-    console.log(roundString);
 
     return this._http.post('http://vm15.htl-leonding.ac.at:8090/Turnierverwaltung/rs/round', roundString, options)
       .map(res => res.json() as String);

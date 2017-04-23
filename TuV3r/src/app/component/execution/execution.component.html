@@ -27,7 +27,12 @@
           <td>
             <label>{{match.team2.name}}</label>
           </td>
-          <td *ngIf="match.team2.name != 'Wildcard'">
+          <td *ngIf="match.team2.name != 'Wildcard' && match.hasBegan == false">
+            <button type="button" class="btn btn-outline-success"
+                    (click)="startMatch(match)">Starten
+            </button>
+          </td>
+          <td *ngIf="match.team2.name != 'Wildcard' && match.hasBegan == true">
             <button type="button" class="btn btn-outline-success"
                     (click)="putMatch(match)">Speichern
             </button>

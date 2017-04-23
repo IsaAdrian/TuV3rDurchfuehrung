@@ -90,6 +90,13 @@ export class ExecutionComponent implements OnInit {
     }
   }
 
+  startMatch(match : Match){
+    match.hasBegan = true;
+    console.log("MATCH-ID:" + String(match.id));
+    this._rest.putMatchStartTime(match.id)
+      .subscribe();
+  }
+
   putMatch(match : Match){
     match.isWrong = false;
     if(match.result.pointsSecondTeam == match.result.pointsFirstTeam
@@ -100,7 +107,7 @@ export class ExecutionComponent implements OnInit {
     }
     match.isDisabled = true;
 
-    this._rest.putMatch(match.result, match.id)
+    this._rest.putMatchResult(match.result, match.id)
       .subscribe();
 
     if(this.finishedMatches.indexOf(match) == -1){
@@ -199,6 +206,7 @@ export class ExecutionComponent implements OnInit {
   finishTournament(){
     this._rest.upDateTournament(this.selectedTournament.id).subscribe();
     this.isFinale = false;
+
     //window.location.href = 'http://vm15.htl-leonding.ac.at:8090/Turnierverwaltung/ng/index.html';
   }
 }

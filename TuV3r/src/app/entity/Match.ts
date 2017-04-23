@@ -10,6 +10,7 @@ import {Result} from "./Result";
 export class Match {
   public isDisabled: boolean = false;
   public isWrong: boolean = false;
+  public hasBegan: boolean = false;
   public id: number = 0;
   constructor (public team1: Team,
                public team2: Team,
