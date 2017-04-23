@@ -13,9 +13,8 @@ import {Result} from "../entity/Result";
 
 @Injectable()
 export class Rest {
-
-  //URL = "http://localhost:8080/Turnierverwaltung/rs/";
   URL = "http://vm15.htl-leonding.ac.at:8090/Turnierverwaltung/rs/";
+  //URL = window.location.host + "/Turnierverwaltung/rs/";
 
   headers = new Headers({ 'Content-Type': 'application/json' });
   options = new RequestOptions({ headers: this.headers });
@@ -32,6 +31,7 @@ export class Rest {
 
   putMatchResult(result: Result, id: number){
     let resultString = "{ \"result\":" + JSON.stringify(result) + ", \"active\":false }";
+
     console.log(resultString);
 
     return this._http.put(this.URL + "match/" + String(id), resultString, this.options).map(res => res.json());

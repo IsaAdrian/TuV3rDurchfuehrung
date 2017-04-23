@@ -121,7 +121,7 @@ export class ExecutionComponent implements OnInit {
       match.isWrong = true;
       return;
     }
-    match.isDisabled = true;
+    match.isUpdated = true;
 
     this._rest.putMatchResult(match.result, match.id)
       .subscribe();
@@ -190,6 +190,7 @@ export class ExecutionComponent implements OnInit {
   }
 
   up(match, whichteam){
+    match.isUpdated = false;
     match.isWrong = false;
     if(whichteam == 1){
       match.result.pointsFirstTeam++;
@@ -200,6 +201,7 @@ export class ExecutionComponent implements OnInit {
   }
 
   down(match, whichteam){
+    match.isUpdated = false;
     match.isWrong = false;
     if(whichteam == 1){
       if(match.result.pointsFirstTeam > 0){

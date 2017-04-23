@@ -6,7 +6,7 @@
         <thead *ngIf="isKleinesFinale == true"><tr><th colspan="4" style="text-align:center">Kleines Finale</th></tr></thead>
         <thead *ngIf="isFinale == true"><tr><th colspan="4" style="text-align:center">Finale</th></tr></thead>
         <tbody>
-        <tr *ngFor="let match of matches" style="text-align: center" [class]="match.isDisabled||match.team1.name=='Wildcard'||match.team2.name=='Wildcard'?'table-success':'table-danger'">
+        <tr *ngFor="let match of matches" style="text-align: center" [class]="match.isUpdated||match.team1.name=='Wildcard'||match.team2.name=='Wildcard'?'table-success':'table-danger'">
           <td>
             <label>{{match.team1.name}}</label>
           </td>
