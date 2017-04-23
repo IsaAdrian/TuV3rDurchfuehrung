@@ -152,7 +152,7 @@ export class ExecutionComponent implements OnInit {
 
   newRound(){
     this.roundContent++;
-    this._rest.postRound(String(this.roundContent))
+    this._rest.postRound(String(this.roundContent), this.selectedTournament.id)
       .subscribe(
         data => {
           this.roundId = data;

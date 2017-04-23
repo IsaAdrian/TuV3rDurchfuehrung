@@ -41,11 +41,15 @@ export class Rest {
       .map(res => res.json());
   }
 
-  postRound(content: String): Observable<String>{
+  postRound(roundContent: String, tournamentId: number): Observable<String>{
     let headers = new Headers({ 'Content-Type': 'application/json' });
     let options = new RequestOptions({ headers: headers });
 
-    return this._http.post('http://vm15.htl-leonding.ac.at:8090/Turnierverwaltung/rs/round', content, options)
+    let roundString = "{\"name\":" + roundContent + ",\"toId\": " + String(tournamentId) + " }";
+
+    console.log(roundString);
+
+    return this._http.post('http://vm15.htl-leonding.ac.at:8090/Turnierverwaltung/rs/round', roundString, options)
       .map(res => res.json() as String);
   }
 
