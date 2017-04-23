@@ -32,11 +32,13 @@ export class ExecutionComponent implements OnInit {
   finishedMatches: Match[] = [];
   court: String = "Platz 1";
   postMatch: Match;
+  startTime: Date;
 
   constructor(private _rest: Rest) {
   }
 
   ngOnInit() {
+    this.startTime = new Date();
     this.getTeamsFromTournament()
   }
 
@@ -59,22 +61,43 @@ export class ExecutionComponent implements OnInit {
     var j = 0;
 
     for(; j < this.teams.length - this.wildcardCount; j+=2){
-      this.matches.push(new Match(this.teams[j], this.teams[j+1], new Result(0, 0), this.selectedTournament));
+      this.matches.push(new Match(this.teams[j], this.teams[j+1], new Result(0, 0), this.selectedTournament,
+        this.getStartTime()));
     }
 
     for(; j < this.teams.length; j++){
-      this.matches.push(new Match(this.teams[j], new Team(1,"Wildcard",0,false,null), new Result(1, 0), this.selectedTournament));
+      this.matches.push(new Match(this.teams[j], new Team(1,"Wildcard",0,false,null), new Result(1, 0), this.selectedTournament,
+        "00:00"));
     }
     this.postMatches(this.matches);
     this.matchesCreated = true;
   }
 
+  getStartTime(): String{
+    var timeString = "";
+    if(this.startTime.getHours() < 10){
+      timeString += "0";
+    }
+    timeString += String(this.startTime.getHours());
+
+    timeString += ":";
+    if(this.startTime.getMinutes() < 10){
+      timeString += "0";
+    }
+    timeString += String(this.startTime.getMinutes());
+
+    this.startTime.setMinutes(this.startTime.getMinutes() + 15);
+
+    console.log("Starttime: " + timeString);
+    return timeString;
+  }
+
   postMatches(matches: Match[]){
     for (let match of matches) {
-      this._rest.postMatch(new PostMatch(match.result, match.team1.id, match.team2.id, this.court, this.roundId))
+      this._rest.postMatch(new PostMatch(match.result, match.team1.id, match.team2.id, this.court, this.roundId, match.startTime))
         .subscribe(
           data => {
-            this.postMatch = new Match(data.team1, data.team2, new Result(data.result[0], data.result[2]), data.tournament);
+            this.postMatch = new Match(data.team1, data.team2, new Result(data.result[0], data.result[2]), data.tournament, data.startTime);
             this.postMatch.id = data.id;
             this.postedMatches.push(this.postMatch);
             this.matches = this.postedMatches;
@@ -88,13 +111,6 @@ export class ExecutionComponent implements OnInit {
         this.court = "Platz 1"
       }
     }
-  }
-
-  startMatch(match : Match){
-    match.hasBegan = true;
-    console.log("MATCH-ID:" + String(match.id));
-    this._rest.putMatchStartTime(match.id)
-      .subscribe();
   }
 
   putMatch(match : Match){

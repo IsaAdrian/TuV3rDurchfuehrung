@@ -14,67 +14,36 @@ import {Result} from "../entity/Result";
 @Injectable()
 export class Rest {
 
+  //URL = "http://localhost:8080/Turnierverwaltung/rs/";
+  URL = "http://vm15.htl-leonding.ac.at:8090/Turnierverwaltung/rs/";
+
+  headers = new Headers({ 'Content-Type': 'application/json' });
+  options = new RequestOptions({ headers: this.headers });
+
   constructor (private _http: Http){ }
 
   getTournaments(): Observable<Tournament[]>{
-    let headers = new Headers({ 'Content-Type': 'application/json' });
-    let options = new RequestOptions({ headers: headers });
-
-    return this._http.get("http://vm15.htl-leonding.ac.at:8090/Turnierverwaltung/rs/tournament", options)
-      .map(res => res.json() as Tournament[]);
+    return this._http.get(this.URL + "tournament", this.options).map(res => res.json() as Tournament[]);
   }
 
   postMatch(match: PostMatch): Observable<Match>{
-    let headers = new Headers({ 'Content-Type': 'application/json' });
-    let options = new RequestOptions({ headers: headers });
-
-    return this._http.post('http://vm15.htl-leonding.ac.at:8090/Turnierverwaltung/rs/match', match, options)
-      .map(res => res.json() as Match);
+    return this._http.post(this.URL + "match", match, this.options).map(res => res.json() as Match);
   }
 
   putMatchResult(result: Result, id: number){
-    let headers = new Headers({ 'Content-Type': 'application/json' });
-    let options = new RequestOptions({ headers: headers });
-
-    let resultString = "{ \"result\":" + JSON.stringify(result) + "}";
-
+    let resultString = "{ \"result\":" + JSON.stringify(result) + ", \"active\":false }";
     console.log(resultString);
 
-    return this._http.put("http://vm15.htl-leonding.ac.at:8090/Turnierverwaltung/rs/match/" + String(id), resultString, options)
-      .map(res => res.json());
-  }
-
-  putMatchStartTime(id: number){
-    let headers = new Headers({ 'Content-Type': 'application/json' });
-    let options = new RequestOptions({ headers: headers });
-
-    let date = new Date();
-    var timeString = "{ \"startTime\": \"" + String(date.getHours())+":";
-    if(date.getMinutes() < 10){
-      timeString += "0";
-    }
-    timeString += (String(date.getMinutes()) + "\" }");
-
-    return this._http.put("http://vm15.htl-leonding.ac.at:8090/Turnierverwaltung/rs/match/" + String(id), timeString, options)
-      .map(res => res.json());
+    return this._http.put(this.URL + "match/" + String(id), resultString, this.options).map(res => res.json());
   }
 
   postRound(roundContent: String, tournamentId: number): Observable<String>{
-    let headers = new Headers({ 'Content-Type': 'application/json' });
-    let options = new RequestOptions({ headers: headers });
-
     let roundString = "{\"name\":" + roundContent + ",\"toId\": " + String(tournamentId) + " }";
 
-    return this._http.post('http://vm15.htl-leonding.ac.at:8090/Turnierverwaltung/rs/round', roundString, options)
-      .map(res => res.json() as String);
+    return this._http.post(this.URL+ "round", roundString, this.options).map(res => res.json() as String);
   }
 
   upDateTournament(tournamentId: number) {
-    let headers = new Headers({ 'Content-Type': 'application/json' });
-    let options = new RequestOptions({ headers: headers });
-
-    return this._http.put("http://vm15.htl-leonding.ac.at:8090/Turnierverwaltung/rs/tournament/" + String(tournamentId),
-      "false", options)
-      .map(res => res.json());
+    return this._http.put(this.URL + "tournament/" + String(tournamentId), "false", this.options).map(res => res.json());
   }
 }

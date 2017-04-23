@@ -16,6 +16,7 @@ export class PostMatch {
     public team1Id: number,
     public team2Id: number,
     public court: String,
-    public roundId: String
+    public roundId: String,
+    public startTime: String
   ){ }
 }2
