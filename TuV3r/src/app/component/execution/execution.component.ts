@@ -225,6 +225,6 @@ export class ExecutionComponent implements OnInit {
     this._rest.upDateTournament(this.selectedTournament.id).subscribe();
     this.isFinale = false;
 
-    //window.location.href = 'http://vm15.htl-leonding.ac.at:8090/Turnierverwaltung/ng/index.html';
+    window.location.href = String(window.location).slice(0, -4) + "/index.html";
   }
 }

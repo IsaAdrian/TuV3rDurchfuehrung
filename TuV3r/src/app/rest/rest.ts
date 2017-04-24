@@ -13,8 +13,7 @@ import {Result} from "../entity/Result";
 
 @Injectable()
 export class Rest {
-  URL = "http://vm15.htl-leonding.ac.at:8090/Turnierverwaltung/rs/";
-  //URL = window.location.host + "/Turnierverwaltung/rs/";
+  URL = "http://" + window.location.host + "/Turnierverwaltung/rs/";
 
   headers = new Headers({ 'Content-Type': 'application/json' });
   options = new RequestOptions({ headers: this.headers });
